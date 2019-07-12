@@ -314,7 +314,7 @@ def get_matching_entry():
 
 if __name__ == '__main__':
     application.run(
-        debug=True,
+        #debug=True,
         host='0.0.0.0',
         port=80
     )

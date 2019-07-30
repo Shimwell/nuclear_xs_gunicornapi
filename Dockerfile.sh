@@ -1,1 +1,1 @@
-sudo docker run  -p 80:8000 gunicorn_api
+sudo docker run  -p 8080:8080 gunicorn_api

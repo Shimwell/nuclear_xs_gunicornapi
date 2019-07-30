@@ -2,13 +2,14 @@ import math
 import time
 from flask import Flask, jsonify, make_response, abort, request, Response, send_file
 
-from io import BytesIO
+from io import BytesIO, StringIO
 import json
 from bson import json_util
 from bson.objectid import ObjectId
 from data_formatting_tools import *
 from database_tools import *
 from flask_cors import CORS, cross_origin
+import pandas as pd
 
 application = Flask(__name__)
 CORS(application)
@@ -31,7 +32,6 @@ def not_found(error):
 
 
 # import json
-# import pandas as pd
 
 # import requests
 # import json
@@ -110,9 +110,9 @@ def get_entries_in_field(collection, field, query=None):
 def test():
     return 'working'
 
-@application.route('/download_py3' ,methods=['GET','POST'])
+@application.route('/download_json' ,methods=['GET','POST'])
 @cross_origin()
-def download4():
+def download_json():
     ids = request.args.get('ids')
     ids = ids.strip("'")
     ids = ids.strip('"')
@@ -127,7 +127,7 @@ def download4():
         print('id', id)
         query={'_id':ObjectId(id)}
         result = collection.find_one(query)
-        results_json = json_util.dumps(result)
+        results_json = json_util.dumps(result, indent=4)
         list_of_matching_database_entries.append(results_json)
 
     file_data = BytesIO()
@@ -135,8 +135,53 @@ def download4():
     file_data.write(str(list_of_matching_database_entries).encode('utf-8'))
     #file_data.write(b'list_of_matching_database_entries')
     file_data.seek(0)
-    print('making file')
-    return send_file(file_data, attachment_filename='my_data.txt', as_attachment=True)
+    print('making file2')
+    return send_file(file_data, attachment_filename='cross_section_data.json', as_attachment=True)
+
+@application.route('/download_csv' ,methods=['GET','POST'])
+@cross_origin()
+def download_csv():
+    ids = request.args.get('ids')
+    ids = ids.strip("'")
+    ids = ids.strip('"')
+    ids = ids.strip("[")
+    ids = ids.strip("]")
+    ids = ids.split(',')
+    list_of_matching_database_entries = []
+    print('ids', ids  )
+    for id in ids:
+        id = id.strip("'")
+        id = id.strip('"')             
+        print('id', id)
+        query={'_id':ObjectId(id)}
+        result = collection.find_one(query)
+        result['_id']=id
+        print(result)
+        # results_json = json_util.dumps(result)
+        list_of_matching_database_entries.append(result)
+
+    list_of_lines =['Cross sections downloed from ShimPlotWell']
+    for entry in list_of_matching_database_entries:
+        list_of_lines.append('')
+        for keyname in meta_data_fields:
+            list_of_lines.append(keyname + ' , ' +str(entry[keyname]))
+    
+        list_of_lines.append('    '+' , '.join(axis_option_fields))
+
+
+        # list_of_lines.append(i) for i in entry[axis_option_fields[0]
+
+        for x, y in zip(entry[axis_option_fields[0]], entry[axis_option_fields[1]]):
+            list_of_lines.append('    ' + str(x) + ' , ' + str(y))
+
+    file_data = BytesIO()
+    file_data.write('\n'.join(list_of_lines).encode('utf-8'))
+    # xs_dataframe.to_csv(file_data)
+    file_data.seek(0)
+    # file_data = StringIO()
+    # file_data.write(b'list_of_matching_database_entries')
+    print('making file2')
+    return send_file(file_data, attachment_filename='cross_section_data.csv', as_attachment=True)
 
 
 

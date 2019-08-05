@@ -1,6 +1,7 @@
 
 FROM python:3.6
 RUN pip install flask gunicorn pymongo Flask-Cors openpyxl pandas
+RUN apt-get update
 RUN apt-get install python-gevent python-gevent-websocket
 
 RUN echo hi

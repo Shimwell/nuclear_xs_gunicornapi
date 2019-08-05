@@ -10,6 +10,7 @@ from data_formatting_tools import *
 from database_tools import *
 from flask_cors import CORS, cross_origin
 import pandas as pd
+import re
 
 application = Flask(__name__)
 CORS(application)
@@ -22,8 +23,18 @@ def not_found(error):
 
 
 
-
-
+  
+def atoi(text): 
+    return int(text) if text.isdigit() else text 
+ 
+def natural_keys(text): 
+    ''' 
+    alist.sort(key=natural_keys) sorts in human order 
+    http://nedbatchelder.com/blog/200712/human_sorting.html 
+    (See Toothy's implementation in the comments) 
+    ''' 
+    return [ atoi(c) for c in re.split(r'(\d+)', text) ] 
+ 
 
 
 
@@ -64,7 +75,7 @@ metadata_fields_and_their_distinct_values={}
 for entry in meta_data_fields:
     values = get_entries_in_field(collection,entry)
     # metadata_values.append(values)
-    values.sort()
+    values.sort(key=natural_keys) 
     metadata_fields_and_their_distinct_values[entry]=values
 
 

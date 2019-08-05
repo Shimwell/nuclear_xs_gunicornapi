@@ -1,6 +1,6 @@
 
 FROM python:3.6
-RUN pip install flask gunicorn pymongo Flask-Cors openpyxl
+RUN pip install flask gunicorn pymongo Flask-Cors openpyxl pandas
 
 RUN echo hi
 ADD flask_app /app

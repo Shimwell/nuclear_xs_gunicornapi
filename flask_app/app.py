@@ -167,6 +167,7 @@ def download_csv():
             list_of_lines.append(keyname + ' , ' +str(entry[keyname]))
     
         list_of_lines.append('    '+' , '.join(axis_option_fields))
+        list_of_lines.append('(barns) , (eV)')
 
 
         # list_of_lines.append(i) for i in entry[axis_option_fields[0]

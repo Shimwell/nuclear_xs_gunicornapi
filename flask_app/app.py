@@ -11,6 +11,7 @@ from database_tools import *
 from flask_cors import CORS, cross_origin
 import pandas as pd
 import re
+import pickle
 
 application = Flask(__name__)
 CORS(application)
@@ -24,16 +25,16 @@ def not_found(error):
 
 
   
-def atoi(text): 
-    return int(text) if text.isdigit() else text 
+# def atoi(text): 
+#     return int(text) if text.isdigit() else text 
  
-def natural_keys(text): 
-    ''' 
-    alist.sort(key=natural_keys) sorts in human order 
-    http://nedbatchelder.com/blog/200712/human_sorting.html 
-    (See Toothy's implementation in the comments) 
-    ''' 
-    return [ atoi(c) for c in re.split(r'(\d+)', text) ] 
+# def natural_keys(text): 
+#     ''' 
+#     alist.sort(key=natural_keys) sorts in human order 
+#     http://nedbatchelder.com/blog/200712/human_sorting.html 
+#     (See Toothy's implementation in the comments) 
+#     ''' 
+#     return [ atoi(c) for c in re.split(r'(\d+)', text) ] 
  
 
 
@@ -70,18 +71,25 @@ print('meta_data_fields',meta_data_fields)
 axis_option_fields = find_all_fields_of_a_particular_types_in_database(collection,'list')
 print('axis_option_fields',axis_option_fields)
 
-# metadata_values=[]
-metadata_fields_and_their_distinct_values={}
-for entry in meta_data_fields:
-    values = get_entries_in_field(collection,entry)
-    # metadata_values.append(values)
-    values.sort(key=natural_keys) 
-    metadata_fields_and_their_distinct_values[entry]=values
+
+# metadata_fields_and_their_distinct_values={}
+# for entry in meta_data_fields:
+#     values = get_entries_in_field(collection,entry)
+#     # metadata_values.append(values)
+#     values.sort(key=natural_keys) 
+#     metadata_fields_and_their_distinct_values[entry]=values
 
 
-meta_data_fields_and_distinct_entries = []
-for field in meta_data_fields:
-    meta_data_fields_and_distinct_entries.append({'field':[field],'distinct_values':metadata_fields_and_their_distinct_values[field]})
+
+with open('metadata_fields_and_their_distinct_values.json', 'rb') as json_file:
+    metadata_fields_and_their_distinct_values = json.load(json_file)
+
+# meta_data_fields_and_distinct_entries = []
+# for field in meta_data_fields:
+#     meta_data_fields_and_distinct_entries.append({'field':[field],'distinct_values':metadata_fields_and_their_distinct_values[field]})
+
+with open('meta_data_fields_and_distinct_entries.json', 'rb') as json_file:
+    meta_data_fields_and_distinct_entries = json.load(json_file)
 
 # #print(meta_data_fields_and_distinct_entries)
 # #print(find_metadata_fields_and_their_distinct_values(collection, ignore_fields=['Time [sec]', 'Stroke', 'Extens', 'Load', 'Temp1', 'Temp2', 'Temp3']))

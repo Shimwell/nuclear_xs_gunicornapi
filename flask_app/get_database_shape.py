@@ -45,6 +45,7 @@ for entry in meta_data_fields:
 
 meta_data_fields_and_distinct_entries = []
 for field in meta_data_fields:
+    print('meta_data_fields_and_distinct_entries', field)
     meta_data_fields_and_distinct_entries.append({'field':[field],'distinct_values':metadata_fields_and_their_distinct_values[field]})
 
 

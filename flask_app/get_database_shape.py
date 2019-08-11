@@ -10,7 +10,7 @@ from bson import json_util
 from bson.objectid import ObjectId
 from data_formatting_tools import *
 from database_tools import *
-from flask_cors import CORS, cross_origin
+# from flask_cors import CORS, cross_origin
 import pandas as pd
 import re
 

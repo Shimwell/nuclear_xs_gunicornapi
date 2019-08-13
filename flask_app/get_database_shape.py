@@ -51,6 +51,16 @@ for field in meta_data_fields:
 
 
 
+with open('all_database_fields.json', 'w') as outfile:
+    json.dump(all_database_fields, outfile)
+
+with open('meta_data_fields.json', 'w') as outfile:
+    json.dump(meta_data_fields, outfile)
+
+with open('axis_option_fields.json', 'w') as outfile:
+    json.dump(axis_option_fields, outfile)
+
+
 with open('metadata_fields_and_their_distinct_values.json', 'w') as outfile:
     json.dump(meta_data_fields_and_distinct_entries, outfile)
 

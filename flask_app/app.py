@@ -284,7 +284,7 @@ def get_number_of_matching_entrys():
 @cross_origin()
 def get_matching_entrys():
     query_string = request.args.get('query')
-    limit = request.args.get('limit', default=50, type=int)
+    limit = request.args.get('limit', default=30, type=int)
 
     # print('query_string',query_string)
     # try:
@@ -312,7 +312,7 @@ def get_matching_entrys():
 def get_matching_entrys_limited_fields():
     query_string = request.args.get('query')
     requested_fields_string = request.args.get('fields')
-    limit = request.args.get('limit', default=50, type=int)
+    limit = request.args.get('limit', default=30, type=int)
 
 
 

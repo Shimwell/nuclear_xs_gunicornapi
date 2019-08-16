@@ -59,17 +59,18 @@ def not_found(error):
 collection, client, db = connect_to_database()
 # collection, client, db = connect_to_docker_database()
 
+basepath = os.path.dirname(os.path.realpath(__file__))
 
 
 with open('all_database_fields.json', 'rb') as json_file:
-    all_database_fields = json.load(json_file)
+    all_database_fields = json.load(os.path.join(basepath,json_file))
     
 with open('meta_data_fields.json', 'rb') as json_file:
-    meta_data_fields = json.load(json_file)
+    meta_data_fields = json.load(os.path.join(basepath,json_file))
 
     
 with open('axis_option_fields.json', 'rb') as json_file:
-    axis_option_fields = json.load(json_file)
+    axis_option_fields = json.load(os.path.join(basepath,json_file))
 
 # all_database_fields = get_database_fields(collection)
 # print('all_database_fields',all_database_fields)
@@ -94,14 +95,14 @@ with open('axis_option_fields.json', 'rb') as json_file:
 
 
 with open('metadata_fields_and_their_distinct_values.json', 'rb') as json_file:
-    metadata_fields_and_their_distinct_values = json.load(json_file)
+    metadata_fields_and_their_distinct_values = json.load(os.path.join(basepath,json_file))
 
 # meta_data_fields_and_distinct_entries = []
 # for field in meta_data_fields:
 #     meta_data_fields_and_distinct_entries.append({'field':[field],'distinct_values':metadata_fields_and_their_distinct_values[field]})
 
 with open('meta_data_fields_and_distinct_entries.json', 'rb') as json_file:
-    meta_data_fields_and_distinct_entries = json.load(json_file)
+    meta_data_fields_and_distinct_entries = json.load(os.path.join(basepath,json_file))
 
 # #print(meta_data_fields_and_distinct_entries)
 # #print(find_metadata_fields_and_their_distinct_values(collection, ignore_fields=['Time [sec]', 'Stroke', 'Extens', 'Load', 'Temp1', 'Temp2', 'Temp3']))

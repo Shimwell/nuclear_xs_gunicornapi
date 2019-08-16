@@ -61,8 +61,8 @@ collection, client, db = connect_to_database()
 
 basepath = os.path.dirname(os.path.realpath(__file__))
 
-print(basepath)
-print(type(basepath))
+print('basepath',basepath)
+
 with open(os.path.join(basepath,'all_database_fields.json'), 'rb') as json_file:
     all_database_fields = json.load(json_file)
     
@@ -97,7 +97,7 @@ with open(os.path.join(basepath,'axis_option_fields.json'), 'rb') as json_file:
 
 with open(os.path.join(basepath,'metadata_fields_and_their_distinct_values.json'), 'rb') as json_file:
     metadata_fields_and_their_distinct_values = json.load(json_file)
-input()
+
 
 # meta_data_fields_and_distinct_entries = []
 # for field in meta_data_fields:

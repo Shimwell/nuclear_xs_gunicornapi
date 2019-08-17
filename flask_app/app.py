@@ -69,6 +69,9 @@ with open(os.path.join(basepath,'all_database_fields.json'), 'rb') as json_file:
 with open(os.path.join(basepath,'meta_data_fields.json'), 'rb') as json_file:
     meta_data_fields = json.load(json_file)
 
+meta_data_fields_dict = {}
+for i in meta_data_fields:
+    meta_data_fields_dict[i] = 0
     
 with open(os.path.join(basepath,'axis_option_fields.json'), 'rb') as json_file:
     axis_option_fields = json.load(json_file)
@@ -286,15 +289,6 @@ def get_matching_entrys():
     query_string = request.args.get('query')
     limit = request.args.get('limit', default=30, type=int)
 
-    # print('query_string',query_string)
-    # try:
-    #     query ={}
-    #     query_string= query_string.replace('"', '').replace("'", '')
-    #     for x in query_string.strip('{}').split(','):
-    #         entry=x.split(':')
-    #         query[entry[0]]=entry[1]
-    # except:
-    #     query={}
     query = json.loads(query_string)
     if list(query.keys())[0] == "id":
 
@@ -311,38 +305,13 @@ def get_matching_entrys():
 @cross_origin()
 def get_matching_entrys_limited_fields():
     query_string = request.args.get('query')
-    requested_fields_string = request.args.get('fields')
     limit = request.args.get('limit', default=30, type=int)
 
-
-
-    print('query_string',query_string)
-    print('fields_string',requested_fields_string)
-
-    # try:
-    #     query ={}
-    #     query_string= query_string.replace('"', '').replace("'", '')
-    #     for x in query_string.strip('{}').split(','):
-    #         entry=x.split(':')
-    #         query[entry[0]]=entry[1]
-    # except:
-    #     query={}
     query = json.loads(query_string)
 
-    # try:
-    #     fields ={}
-    #     requested_fields_string= requested_fields_string.replace('"', '').replace("'", '')
-    #     for x in requested_fields_string.strip('{}').split(','):
-    #         entry=x.split(':')
-    #         fields[entry[0]]=int(entry[1])
-    # except:
-    #     fields={}
-    fields = json.loads(requested_fields_string)
-
-    print('fields = ',fields)
     print('query = ',query)
 
-    results = collection.find(query,fields).limit(limit)
+    results = collection.find(query,meta_data_fields_dict).limit(limit)
     
     results_str = json_util.dumps(results)
     results_json = json.loads(results_str)
@@ -350,8 +319,7 @@ def get_matching_entrys_limited_fields():
     for res in results_json: 
         res['id']=res['_id']['$oid'] 
         res.pop('_id')
-    results_str = json_util.dumps(results_json)
-    return results_str
+    return json_util.dumps(results_json)
 
 
 @application.route('/get_matching_entry' ,methods=['GET','POST'])

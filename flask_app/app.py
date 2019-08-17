@@ -72,6 +72,7 @@ with open(os.path.join(basepath,'meta_data_fields.json'), 'rb') as json_file:
 meta_data_fields_dict = {}
 for i in meta_data_fields:
     meta_data_fields_dict[i] = 0
+print('meta_data_fields_dict',meta_data_fields_dict)
     
 with open(os.path.join(basepath,'axis_option_fields.json'), 'rb') as json_file:
     axis_option_fields = json.load(json_file)

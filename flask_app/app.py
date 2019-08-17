@@ -68,14 +68,14 @@ with open(os.path.join(basepath,'all_database_fields.json'), 'rb') as json_file:
     
 with open(os.path.join(basepath,'meta_data_fields.json'), 'rb') as json_file:
     meta_data_fields = json.load(json_file)
-
-meta_data_fields_dict = {}
-for i in meta_data_fields:
-    meta_data_fields_dict[i] = 0
-print('meta_data_fields_dict',meta_data_fields_dict)
     
 with open(os.path.join(basepath,'axis_option_fields.json'), 'rb') as json_file:
     axis_option_fields = json.load(json_file)
+
+axis_option_fields_dict = {}
+for i in axis_option_fields:
+    axis_option_fields_dict[i] = 0
+print('axis_option_fields_dict',axis_option_fields_dict)
 
 # all_database_fields = get_database_fields(collection)
 # print('all_database_fields',all_database_fields)
@@ -312,7 +312,7 @@ def get_matching_entrys_limited_fields():
 
     print('query = ',query)
 
-    results = collection.find(query,meta_data_fields_dict).limit(limit)
+    results = collection.find(query,axis_option_fields_dict).limit(limit)
     
     results_str = json_util.dumps(results)
     results_json = json.loads(results_str)

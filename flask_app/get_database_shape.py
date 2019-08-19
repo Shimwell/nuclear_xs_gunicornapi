@@ -12,6 +12,7 @@ from database_tools import *
 # from flask_cors import CORS, cross_origin
 import pandas as pd
 import re
+from natsort import natsorted
 
 
 
@@ -37,9 +38,9 @@ print('axis_option_fields',axis_option_fields)
 # metadata_values=[]
 metadata_fields_and_their_distinct_values={}
 for entry in meta_data_fields:
-    values = get_entries_in_field(collection,entry)
+    values = natsorted(get_entries_in_field(collection,entry))
     # metadata_values.append(values)
-    values.sort()#(key=natural_keys) 
+    # values.sort()#(key=natural_keys) 
     metadata_fields_and_their_distinct_values[entry]=values
 
 

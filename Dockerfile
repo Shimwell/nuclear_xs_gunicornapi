@@ -1,6 +1,6 @@
 
 FROM python:3.6
-RUN pip install flask gunicorn pymongo Flask-Cors openpyxl pandas
+RUN pip install flask gunicorn pymongo Flask-Cors openpyxl pandas natsort
 RUN apt-get update
 
 RUN echo hi

@@ -283,6 +283,37 @@ def get_number_of_matching_entrys():
         counter=counter+1
     return jsonify(counter)
 
+@application.route('/get_matching_entrys_and_distinct_values_for_fields' ,methods=['GET','POST'])
+@cross_origin()
+def get_matching_entrys_and_distinct_values_for_fields():
+    query_string = request.args.get('query')
+    limit = request.args.get('limit', default=30, type=int)
+
+    query = json.loads(query_string)
+    if list(query.keys())[0] == "id":
+
+        query = {"_id": ObjectId(list(query.values())[0])}
+
+
+    query = json.loads(query_string)
+    print('query = ',query)
+    result = collection.find(query).limit(limit)
+    results_json = {'search_results':json_util.dumps(result)}
+
+    fields_and_available_options = []
+    for field in meta_data_fields:
+
+        available_options = get_entries_in_field(collection, field, query=None)
+        fields_and_available_options.append({
+                                             'field':field,
+                                             'available_options':available_options
+                                             })
+
+    results_json['dropdown_options'] = fields_and_available_options
+
+    return results_json
+
+
 
 @application.route('/get_matching_entrys' ,methods=['GET','POST'])
 @cross_origin()

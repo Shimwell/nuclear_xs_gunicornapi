@@ -165,7 +165,7 @@ def download_json():
         print('id', id)
         query={'_id':ObjectId(id)}
         result = collection.find_one(query)
-        results_json = json_util.dumps(result, indent=4)
+        results_json = json_util.dumps(result) # ,indent = 4
         list_of_matching_database_entries.append(results_json)
 
     file_data = BytesIO()
@@ -173,7 +173,7 @@ def download_json():
     file_data.write(str(list_of_matching_database_entries).encode('utf-8'))
     #file_data.write(b'list_of_matching_database_entries')
     file_data.seek(0)
-    print('making file2')
+    print('make json file for download')
     return send_file(file_data, attachment_filename='cross_section_data.json', as_attachment=True)
 
 @application.route('/download_csv' ,methods=['GET','POST'])
@@ -194,18 +194,18 @@ def download_csv():
         query={'_id':ObjectId(id)}
         result = collection.find_one(query)
         result['_id']=id
-        print(result)
+        # print(result)
         # results_json = json_util.dumps(result)
         list_of_matching_database_entries.append(result)
 
-    list_of_lines =['Cross sections downloed from ShimPlotWell']
+    list_of_lines =['Cross sections downloaded from xsplot.com']
     for entry in list_of_matching_database_entries:
         list_of_lines.append('')
         for keyname in meta_data_fields:
             list_of_lines.append(keyname + ' , ' +str(entry[keyname]))
     
         list_of_lines.append('    '+' , '.join(axis_option_fields))
-        list_of_lines.append('(barns) , (eV)')
+        # list_of_lines.append('(barns) , (eV)')
 
 
         # list_of_lines.append(i) for i in entry[axis_option_fields[0]
@@ -213,13 +213,15 @@ def download_csv():
         for x, y in zip(entry[axis_option_fields[0]], entry[axis_option_fields[1]]):
             list_of_lines.append('    ' + str(x) + ' , ' + str(y))
 
+    file_string = '\n'.join(list_of_lines)
+
     file_data = BytesIO()
-    file_data.write('\n'.join(list_of_lines).encode('utf-8'))
+    file_data.write(file_string.encode('utf-8'))
     # xs_dataframe.to_csv(file_data)
     file_data.seek(0)
     # file_data = StringIO()
     # file_data.write(b'list_of_matching_database_entries')
-    print('making file2')
+    print('make csv file for download')
     return send_file(file_data, attachment_filename='cross_section_data.csv', as_attachment=True)
 
 

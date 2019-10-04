@@ -168,9 +168,11 @@ def download_json():
         results_json = json_util.dumps(result) # ,indent = 4
         list_of_matching_database_entries.append(results_json)
 
+    file_string = str(list_of_matching_database_entries).replace('\n','')
+
     file_data = BytesIO()
     # file_data = StringIO()
-    file_data.write(str(list_of_matching_database_entries).encode('utf-8'))
+    file_data.write(file_string.encode('utf-8'))
     #file_data.write(b'list_of_matching_database_entries')
     file_data.seek(0)
     print('make json file for download')
@@ -197,15 +199,20 @@ def download_csv():
         # print(result)
         # results_json = json_util.dumps(result)
         list_of_matching_database_entries.append(result)
-
+    
     list_of_lines =['Cross sections downloaded from xsplot.com']
     for entry in list_of_matching_database_entries:
+        units = '(barns) , (eV)'
         list_of_lines.append('')
         for keyname in meta_data_fields:
             list_of_lines.append(keyname + ' , ' +str(entry[keyname]))
+            if 'damage' in str(entry[keyname]):
+                units = '(eV-barns) , (eV)'
+            elif 'heat' in str(entry[keyname]):
+                units = '(eV/reaction) , (eV)'
     
         list_of_lines.append('    '+' , '.join(axis_option_fields))
-        # list_of_lines.append('(barns) , (eV)')
+        list_of_lines.append(units)
 
 
         # list_of_lines.append(i) for i in entry[axis_option_fields[0]

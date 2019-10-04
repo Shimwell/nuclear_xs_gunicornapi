@@ -203,9 +203,15 @@ def download_csv():
         list_of_lines.append('')
         for keyname in meta_data_fields:
             list_of_lines.append(keyname + ' , ' +str(entry[keyname]))
-    
+            if 'damage' in str(entry[keyname]):
+                units = '(eV-barns) , (eV)'
+            elif 'heating' in str(entry[keyname]):
+                units = '(eV/reaction) , (eV)'
+            else:
+                units = '(barns) , (eV)'
+
         list_of_lines.append('    '+' , '.join(axis_option_fields))
-        list_of_lines.append('(barns) , (eV)')
+        list_of_lines.append(units)
 
 
         # list_of_lines.append(i) for i in entry[axis_option_fields[0]

@@ -194,24 +194,18 @@ def download_csv():
         query={'_id':ObjectId(id)}
         result = collection.find_one(query)
         result['_id']=id
-        #print(result)
+        print(result)
         # results_json = json_util.dumps(result)
         list_of_matching_database_entries.append(result)
 
-    list_of_lines =['Cross sections downloaded from xsplot.com']
+    list_of_lines =['Cross sections downloed from ShimPlotWell']
     for entry in list_of_matching_database_entries:
         list_of_lines.append('')
-        units = '(barns) , (eV)'
         for keyname in meta_data_fields:
             list_of_lines.append(keyname + ' , ' +str(entry[keyname]))
-            if 'damage' in str(entry[keyname]):
-                units = '(eV-barns) , (eV)'
-            if 'heat' in str(entry[keyname]):
-                units = '(eV/reaction) , (eV)'
-            
-
+    
         list_of_lines.append('    '+' , '.join(axis_option_fields))
-        list_of_lines.append(units)
+        list_of_lines.append('(barns) , (eV)')
 
 
         # list_of_lines.append(i) for i in entry[axis_option_fields[0]
@@ -225,8 +219,8 @@ def download_csv():
     file_data.seek(0)
     # file_data = StringIO()
     # file_data.write(b'list_of_matching_database_entries')
-    print('making csv file for download')
-    return send_file(file_data, attachment_filename='xsplot.csv', as_attachment=True)
+    print('making file2')
+    return send_file(file_data, attachment_filename='cross_section_data.csv', as_attachment=True)
 
 
 

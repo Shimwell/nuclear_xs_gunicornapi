@@ -169,6 +169,7 @@ def download_json():
         list_of_matching_database_entries.append(results_json)
 
     file_string = str(list_of_matching_database_entries).replace('\n','')
+    file_string = file_string.replace("'","")
 
     file_data = BytesIO()
     # file_data = StringIO()

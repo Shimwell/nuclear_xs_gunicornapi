@@ -307,8 +307,18 @@ def get_matching_entrys_and_distinct_values_for_fields():
 
     query = json.loads(query_string)
     print('query = ',query)
-    result = collection.find(query).limit(limit)
-    results_json = {'search_results':json_util.dumps(result)}
+    #result = collection.find(query).limit(limit)
+    results = collection.find(query,axis_option_fields_dict).limit(limit)
+
+    results_str = json_util.dumps(results)
+    results_json = json.loads(results_str)
+
+    for res in results_json: 
+        res['id']=res['_id']['$oid'] 
+        res.pop('_id')
+
+
+    results_json2 = {'search_results':json_util.dumps(results_json)}
 
     fields_and_available_options = []
     for field in meta_data_fields:
@@ -319,9 +329,9 @@ def get_matching_entrys_and_distinct_values_for_fields():
                                              'available_options':available_options
                                              })
 
-    results_json['dropdown_options'] = fields_and_available_options
+    results_json2['dropdown_options'] = fields_and_available_options
 
-    return results_json
+    return results_json2
 
 
 

@@ -3,7 +3,7 @@ FROM python:3.6
 RUN pip install flask gunicorn pymongo Flask-Cors openpyxl pandas natsort
 RUN apt-get update
 
-RUN echo updating code
+RUN echo updating code2
 ADD flask_app /app
 WORKDIR /app
 EXPOSE 8080

@@ -300,16 +300,11 @@ def get_matching_entrys_and_distinct_values_for_fields():
     limit = request.args.get('limit', default=30, type=int)
 
     query = json.loads(query_string)
-    if list(query.keys())[0] == "id":
 
-        query = {"_id": ObjectId(list(query.values())[0])}
-
-
-    query = json.loads(query_string)
     print('query = ',query)
-    #result = collection.find(query).limit(limit)
-    results = collection.find(query,axis_option_fields_dict).limit(limit)
 
+    results = collection.find(query,axis_option_fields_dict).limit(limit)
+    
     results_str = json_util.dumps(results)
     results_json = json.loads(results_str)
 
@@ -317,8 +312,8 @@ def get_matching_entrys_and_distinct_values_for_fields():
         res['id']=res['_id']['$oid'] 
         res.pop('_id')
 
-
-    results_json2 = {'search_results':json_util.dumps(results_json)}
+    results_json2={}
+    results_json2['search_results'] = results_json
 
     fields_and_available_options = []
     for field in meta_data_fields:
@@ -331,7 +326,7 @@ def get_matching_entrys_and_distinct_values_for_fields():
 
     results_json2['dropdown_options'] = fields_and_available_options
 
-    return results_json2
+    return json_util.dumps(results_json2)
 
 
 

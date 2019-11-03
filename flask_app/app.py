@@ -318,7 +318,7 @@ def get_matching_entrys_and_distinct_values_for_fields():
     fields_and_available_options = []
     for field in meta_data_fields:
 
-        available_options = get_entries_in_field(collection, field, query=None)
+        available_options = get_entries_in_field(collection, field, query=query)
         fields_and_available_options.append({
                                              'field':field,
                                              'available_options':available_options

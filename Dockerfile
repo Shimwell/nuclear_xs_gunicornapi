@@ -6,7 +6,7 @@ RUN apt-get update
 RUN echo updating code12345
 ADD flask_app /app
 WORKDIR /app
-EXPOSE 8080
+EXPOSE 443
 
 # run this beforehand
 # RUN python get_database_shape.py

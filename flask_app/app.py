@@ -12,11 +12,17 @@ from flask_cors import CORS, cross_origin
 import pandas as pd
 import re
 import pickle
+from OpenSSL import SSL
 
 application = Flask(__name__)
 CORS(application)
 
 VERSION = '0.1'
+
+context = SSL.Context(SSL.PROTOCOL_TLSv1_2)
+context.use_privatekey_file('private_key.pem')
+context.use_certificate_file('cloudflare.crt')
+
 
 @application.errorhandler(404)
 def not_found(error):

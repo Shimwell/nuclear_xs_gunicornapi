@@ -7,11 +7,11 @@ RUN echo updating code1234567
 ADD flask_app /app
 WORKDIR /app
 EXPOSE 8080
-
-RUN pip install pyOpenSSL
+RUN ll
+# RUN pip install pyOpenSSL
 
 # run this beforehand
 # RUN python get_database_shape.py
 
 # CMD ["gunicorn", "--timeout", "30", "-b", "0.0.0.0:8080", "app"]
-CMD ["gunicorn", "--timeout", "30", "--certfile", "/app/cloudflare.crt", "--keyfile", "/app/private_key.pem", "-b", "0.0.0.0:8080", "app"]
+CMD ["gunicorn", "--timeout", "30", "--certfile", "cloudflare.crt", "--keyfile", "private_key.pem", "-b", "0.0.0.0:8080", "app"]

@@ -12,16 +12,12 @@ from flask_cors import CORS, cross_origin
 import pandas as pd
 import re
 import pickle
-from OpenSSL import SSL
+
 
 application = Flask(__name__)
 CORS(application)
 
 VERSION = '0.1'
-
-context = SSL.Context(SSL.PROTOCOL_TLSv1_2)
-context.use_privatekey_file('private_key.pem')
-context.use_certificate_file('cloudflare.crt')
 
 
 @application.errorhandler(404)
@@ -54,6 +50,7 @@ def not_found(error):
 # import requests
 # import json
 # import requests
+
 # import re
 # from flask import Flask
 # from flask import Flask, jsonify, render_template, request, Response
@@ -413,9 +410,12 @@ def get_matching_entry():
 #     app.run(host='0.0.0.0', port=5001)
 
 
+context = ('cloudflare.crt', 'private_key.pem')
+
 if __name__ == '__main__':
     application.run(
         #debug=True,
         host='0.0.0.0',
-        port=8080
+        port=8080,
+        ssl_context=context
     )

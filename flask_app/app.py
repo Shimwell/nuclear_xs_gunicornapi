@@ -18,8 +18,8 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
-collection, client, db = connect_to_database()
-# collection, client, db = connect_to_docker_database()
+# collection, client, db = connect_to_database()
+collection, client, db = connect_to_docker_database()
 
 basepath = os.path.dirname(os.path.realpath(__file__))
 

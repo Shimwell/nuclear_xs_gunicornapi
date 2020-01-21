@@ -1,0 +1,1 @@
+docker build -t gcr.io/xsplot-cloud-run/api:latest .

@@ -19,7 +19,8 @@ def not_found(error):
 
 
 # collection, client, db = connect_to_database()
-collection, client, db = connect_to_docker_database()
+# collection, client, db = connect_to_docker_database()
+collection, client, db = connect_to_atlas_database()
 
 basepath = os.path.dirname(os.path.realpath(__file__))
 

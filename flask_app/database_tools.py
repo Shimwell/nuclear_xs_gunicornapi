@@ -8,6 +8,15 @@ from pymongo import MongoClient
 from bson.code import Code
 import socket
 
+def connect_to_atlas_database(db_name='my_database',collection_name='collection_one'):
+    host = "mongodb+srv://jshim:rkHfOW6kigCAlIEs@xsplotdb-wmnjb.gcp.mongodb.net/test?retryWrites=true&w=majority"
+    client = MongoClient(host, 27017)
+    db = client[db_name]
+    collection = db[collection_name]
+    print('connected to atlas database')
+    return collection, client, db
+
+
 def connect_to_database(db_name='my_database',collection_name='collection_one'):
     ''' Creates a local MongoDB database called my_database and connects to it
         defaults are provided for the names
